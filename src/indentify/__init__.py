@@ -9,6 +9,7 @@ def indentify(source: str, indent_width: int = 2) -> str:
     indent_markers = "([{"
     dedent_markers = ")]}"
     trailing_symbols = ",;"
+    separators = ","
 
     indent = " " * indent_width
 
@@ -25,7 +26,13 @@ def indentify(source: str, indent_width: int = 2) -> str:
         if char in " \t\n\r":
             continue
 
-        if char in indent_markers:
+        if char in separators:
+            next_line_chars.append(char)
+            line = indent * indent_level + "".join(next_line_chars)
+            lines.append(line)
+            next_line_chars = []
+
+        elif char in indent_markers:
             next_line_chars.append(char)
             line = indent * indent_level + "".join(next_line_chars)
             lines.append(line)
